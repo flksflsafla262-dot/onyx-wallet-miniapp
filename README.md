@@ -3,6 +3,11 @@
 Чёрно-графитовый кошелёк в стиле Apple для Telegram Mini Apps. Без сборки и зависимостей: чистые ES-модули, один `index.html`.
 Работает внутри Telegram (iOS, Android, Desktop, Web) и в обычном браузере (на ПК отображается в «телефонной» рамке).
 
+**Живая версия (GitHub Pages):** https://flksflsafla262-dot.github.io/onyx-wallet-miniapp/
+Деплой автоматический: каждый push в `main` публикует папку `public/` (см. `.github/workflows/pages.yml`).
+
+Анимации намеренно **не отключаются** системной настройкой «уменьшить движение» / «показывать анимации» в Windows.
+
 ## Запуск
 
 ```bash
