@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Onyx</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
+  <link rel="manifest" href="manifest.webmanifest" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/motion.css" />
+
+  <!-- Telegram Mini Apps SDK (must be loaded before the app module) -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div id="app" class="app">
+    <div class="ambient" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><i class="grain"></i></div>
+    <main id="screens" class="screens"></main>
+    <nav id="tabbar" class="tabbar" aria-label="Navigation"></nav>
+    <div id="sheets" class="sheet-layer"></div>
+    <div id="fx" class="fx-layer" aria-hidden="true"></div>
+    <div id="toasts" class="toast-layer" role="status" aria-live="polite"></div>
+    <div id="lock-layer"></div>
+    <div id="splash" class="splash" aria-hidden="true">
+      <div class="splash-mark">
+        <svg viewBox="0 0 64 64" fill="none">
+          <defs>
+            <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#6b6b73"/></linearGradient>
+          </defs>
+          <rect x="2.75" y="2.75" width="58.5" height="58.5" rx="18.25" class="splash-ring" pathLength="1"/>
+          <path d="M32 14 47 32 32 50 17 32Z" fill="url(#sg)"/>
+        </svg>
+        <span>Onyx</span>
+      </div>
+    </div>
+  </div>
+  <noscript><p style="color:#fff;padding:24px;font-family:sans-serif">JavaScript is required.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

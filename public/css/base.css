@@ -1,0 +1,144 @@
+/* ==========================================================================
+   Base, app shell, desktop frame
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-touch-callout: none;
+}
+
+body { -webkit-user-select: none; user-select: none; }
+input, textarea { -webkit-user-select: text; user-select: text; }
+.selectable { -webkit-user-select: text; user-select: text; }
+
+button { font: inherit; color: inherit; letter-spacing: inherit; background: none; border: 0; padding: 0; margin: 0; cursor: pointer; touch-action: manipulation; }
+button:disabled { cursor: default; }
+input, textarea, select { font: inherit; color: inherit; letter-spacing: inherit; }
+h1, h2, h3, h4, p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+svg { display: block; flex: none; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+:focus { outline: none; }
+:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.75); outline-offset: 2px; border-radius: 8px; }
+
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1, "cv11" 1; }
+.mono { font-family: var(--font-mono); letter-spacing: 0; }
+.muted { color: var(--text-2); }
+.faint { color: var(--text-3); }
+.pos { color: var(--pos) !important; }
+.neg { color: var(--neg) !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+/* ---------- App shell ---------- */
+.app {
+  position: fixed;
+  inset: 0;
+  height: var(--app-h);
+  overflow: hidden;
+  background: var(--bg);
+  isolation: isolate;
+}
+
+.ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 55% at 50% -12%, rgba(255, 255, 255, 0.11), transparent 62%),
+    radial-gradient(80% 40% at 100% 18%, rgba(160, 160, 175, 0.07), transparent 70%),
+    radial-gradient(70% 38% at 0% 62%, rgba(120, 120, 135, 0.05), transparent 70%);
+}
+
+.screens { position: absolute; inset: 0; z-index: 1; }
+
+.screen {
+  position: absolute;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(var(--fx, 0px), 10px, 0) scale(0.992);
+  transition: opacity 0.28s var(--ease-out), transform 0.6s var(--ease-out), visibility 0s linear 0.28s;
+  padding-bottom: calc(var(--tabbar-h) + var(--tabbar-gap) + max(var(--safe-bottom), 12px) + 28px);
+}
+.screen::-webkit-scrollbar { display: none; }
+.screen.is-active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.inner { width: 100%; max-width: var(--measure); margin: 0 auto; padding-left: calc(var(--gutter) + var(--safe-left)); padding-right: calc(var(--gutter) + var(--safe-right)); }
+
+/* Staggered entrance (first activation only) */
+@keyframes rise { from { opacity: 0; transform: translate3d(0, 16px, 0); } to { opacity: 1; transform: none; } }
+.screen.is-entering .reveal { animation: rise 0.7s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 55ms); }
+
+/* ---------- Splash ---------- */
+.splash {
+  position: absolute; inset: 0; z-index: 90;
+  display: grid; place-items: center;
+  background: #000;
+  transition: opacity 0.6s var(--ease-out), visibility 0s linear 0.6s;
+}
+.splash.is-gone { opacity: 0; visibility: hidden; pointer-events: none; }
+.splash-mark { display: grid; justify-items: center; gap: 18px; animation: splash-in 0.9s var(--ease-out) both; }
+.splash.is-gone .splash-mark { transform: scale(1.08); opacity: 0; transition: transform 0.6s var(--ease-out), opacity 0.4s; }
+.splash-mark svg { width: 64px; height: 64px; filter: drop-shadow(0 0 28px rgba(255, 255, 255, 0.22)); }
+.splash-mark span { font-size: 15px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--text-2); padding-left: 0.32em; }
+@keyframes splash-in { from { opacity: 0; transform: scale(0.9); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+
+/* ---------- Desktop frame (opened in a normal browser) ---------- */
+html[data-frame] body {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(255, 255, 255, 0.06), transparent 70%),
+    radial-gradient(40% 40% at 85% 90%, rgba(255, 255, 255, 0.04), transparent 70%),
+    #050506;
+}
+html[data-frame] .app {
+  position: relative;
+  inset: auto;
+  width: 430px;
+  height: min(920px, calc(100dvh - 48px));
+  border-radius: 46px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.11), 0 0 0 10px #0b0b0c, 0 0 0 11px rgba(255, 255, 255, 0.08), 0 50px 120px rgba(0, 0, 0, 0.7);
+  --safe-top: 0px;
+  --safe-bottom: 0px;
+}
+html[data-frame] .app::after {
+  content: ""; position: absolute; left: 50%; top: 9px; width: 96px; height: 26px; margin-left: -48px;
+  border-radius: 20px; background: #000; box-shadow: 0 0 0 1px rgba(255,255,255,.06); z-index: 200; pointer-events: none;
+}
+html[data-frame] { --safe-top: 0px; }
+html[data-frame] .navbar, html[data-frame] .topbar { padding-top: 46px; }
+
+/* Animations are part of the product feel: they intentionally keep running even when the OS
+   "reduce motion" / Windows "show animations" setting is off, so nothing overrides them here. */

@@ -1,0 +1,14 @@
+{
+  "name": "onyx-wallet-miniapp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Onyx — Telegram Mini App crypto wallet (black & graphite, Apple-style).",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "dev": "node server.mjs",
+    "lan": "node server.mjs --host 0.0.0.0",
+    "bot": "node bot/bot.mjs",
+    "check": "node scripts/check-i18n.mjs"
+  }
+}
